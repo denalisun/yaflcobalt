@@ -40,13 +40,11 @@
 #include <string>
 #include <format>
 #include <vector>
-#include <stdexcept>
 #include <type_traits>
 #include <intrin.h>
-#include <Windows.h>
-#include <source_location>
-#include <DbgHelp.h>
-#pragma comment(lib, "Dbghelp.lib")
+#include <windows.h>
+#include <dbghelp.h>
+using namespace std;
 
 #define MemcuryAssert(cond)                                              \
     if (!(cond))                                                         \

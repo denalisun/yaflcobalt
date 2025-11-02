@@ -1,7 +1,7 @@
 CC = x86_64-w64-mingw32-g++
 SRC = src/dllmain.cpp
-OUT = yafl.dll
-CFLAGS = -I include/ -L lib/ -lminhook.x64 -ldetours -lsyelog -std=c++20
+OUT = yaflcobalt.dll
+CFLAGS = -I include/ -L lib/ -lminhook.x64 -ldetours -lsyelog -ldbghelp -std=c++23 -DUNICODE -D_UNICODE -fpermissive
 
 build:
-	$(CC) -o $(OUT) $(SRC) -Wall -Werror $(CFLAGS)
+	$(CC) -shared -o $(OUT) $(SRC) -Wall $(CFLAGS)
