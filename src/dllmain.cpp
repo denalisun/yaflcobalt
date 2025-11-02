@@ -1,10 +1,10 @@
 
 #include <Windows.h>
 #include <iostream>
-#include <detours.h>
+#include "detours.h"
 #include "curlhook.h"
 #include "exithook.h"
-#include <MinHook/MinHook.h>
+#include "MinHook.h"
 
 #define DetoursEasy(address, hook) \
 	DetourTransactionBegin(); \
