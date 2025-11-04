@@ -1,4 +1,4 @@
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>
 #include <iostream>
 #include <detours.h>
@@ -8,7 +8,6 @@
 #include <fstream>
 #include <filesystem>
 namespace fs = std::filesystem;
-#define _CRT_SECURE_NO_WARNINGS
 
 #define DetoursEasy(address, hook) \
 	DetourTransactionBegin(); \

@@ -91,7 +91,10 @@ inline CURLcode CurlEasySetOptDetour(struct Curl_easy* data, CURLoption tag, ...
 		{
 			if (CobaltUsage == ECobaltUsage::Private)
 			{
-				url = Uri::CreateUri(URL_PROTOCOL, URL_HOST, URL_PORT, uri.Path, uri.QueryString);
+				if (Overrides::bUseOverrides)
+					url = Uri::CreateUri(Overrides::Protocol, Overrides::Host, Overrides::Port, uri.Path, uri.QueryString);
+				else
+					url = Uri::CreateUri(URL_PROTOCOL, URL_HOST, URL_PORT, uri.Path, uri.QueryString);
 			}
 			else if (CobaltUsage == ECobaltUsage::Hybrid)
 			{
