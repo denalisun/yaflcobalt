@@ -6,7 +6,7 @@
 #include "memcury.h"
 #include "settings.h"
 
-#include "curl.h"
+#include "../vendor/cURL/curl.h"
 #include "url.h"
 
 inline CURLcode(*CurlSetOpt)(struct Curl_easy*, CURLoption, va_list) = nullptr;
