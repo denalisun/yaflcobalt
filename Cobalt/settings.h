@@ -16,3 +16,11 @@ enum class ECobaltUsage
 
 constexpr static ECobaltUsage CobaltUsage = ECobaltUsage::Private;
 constexpr bool bIsS13Epic = false; // S13 Hybrid Windows -> IOS fake
+
+namespace Overrides
+{
+	std::string Host;
+	std::string Port;
+	std::string Protocol;
+	bool bUseOverrides;
+}

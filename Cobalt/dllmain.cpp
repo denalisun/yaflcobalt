@@ -5,6 +5,10 @@
 #include "curlhook.h"
 #include "exithook.h"
 #include <MinHook/MinHook.h>
+#include <fstream>
+#include <filesystem>
+namespace fs = std::filesystem;
+#define _CRT_SECURE_NO_WARNINGS
 
 #define DetoursEasy(address, hook) \
 	DetourTransactionBegin(); \
@@ -206,6 +210,39 @@ DWORD WINAPI Main(LPVOID)
 #else
     Memcury::VEHHook::Init();
 #endif
+
+    fs::path yaflRedirPath = std::string(getenv("TEMP"));
+    yaflRedirPath /= std::string(".yaflredirect");
+    std::ifstream infile(yaflRedirPath.c_str());
+    if (infile.good())
+    {
+        std::string sLine;
+        std::getline(infile, sLine);
+
+        size_t httpPos = sLine.find("://");
+        if (httpPos != std::string::npos)
+        {
+            Overrides::Protocol = sLine.substr(0, httpPos);
+        }
+
+        size_t start = httpPos + 3;
+        size_t ipEndPos = sLine.find(":", start);
+        if (ipEndPos != std::string::npos)
+        {
+            Overrides::Host = sLine.substr(start, ipEndPos - start);
+        }
+
+        size_t portStart = ipEndPos + 1;
+        if (portStart < sLine.size())
+        {
+            Overrides::Port = sLine.substr(portStart);
+        }
+
+        if (!Overrides::Host.empty() && !Overrides::Port.empty() && !Overrides::Protocol.empty())
+        {
+            Overrides::bUseOverrides = true;
+        }
+    }
 
     bool curlResult = InitializeCurlHook();
     InitializeEOSCurlHook();
