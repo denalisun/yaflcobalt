@@ -1,16 +1,15 @@
 
-#include <windows.h>
+#include <Windows.h>
 #include <iostream>
 #include "detours.h"
 #include "curlhook.h"
 #include "exithook.h"
 #include "MinHook.h"
-#include <string.h>
 
 #define DetoursEasy(address, hook) \
 	DetourTransactionBegin(); \
     DetourUpdateThread(GetCurrentThread()); \
-    DetourAttach(&(PVOID&)address, (PVOID)hook); \
+    DetourAttach(reinterpret_cast<void**>(&address), hook); \
     DetourTransactionCommit();
 
 void returnNone() { return; }
@@ -176,35 +175,8 @@ void InitializeExitHook()
         std::cout << "Failed to find RequestExitWithStatusAddr (This may be fine)!\n";
     }
 
-    DetoursEasy(UnsafeEnvironmentPopupAddr, (void*)UnsafeEnvironmentPopupHook);
-    DetoursEasy(RequestExitWithStatusAddr, (void*)RequestExitWithStatusHook);
-}
-
-char *combine_path(const char* p1, const char* p2) {
-    char *result = (char*)malloc(strlen(p1) + strlen(p2) + 2);
-    strcpy(result, p1);
-    strcat(result, "\\");
-    strcat(result, p2);
-    return result;
-}
-
-void parse_url()
-{
-    FILE* redirectUrlFile;
-    redirectUrlFile = fopen(combine_path(getenv("TEMP"), ".yaflredirect"), "r");
-    if (redirectUrlFile == NULL) return;
-
-    char buf[256];
-    if (fgets(buf, sizeof(buf), redirectUrlFile) != NULL)
-    {
-        fclose(redirectUrlFile);
-        return;
-    }
-
-    if (sscanf(buf, "%[^:]://%[^:]:%s", urlProtocol, urlHost, urlPort) != 3)
-    {
-        return;
-    }
+    DetoursEasy(UnsafeEnvironmentPopupAddr, UnsafeEnvironmentPopupHook);
+    DetoursEasy(RequestExitWithStatusAddr, RequestExitWithStatusHook);
 }
 
 DWORD WINAPI Main(LPVOID)
@@ -216,12 +188,10 @@ DWORD WINAPI Main(LPVOID)
     freopen_s(&fptr, "CONOUT$", "w+", stdout);
 #endif SHOW_WINDOWS_CONSOLE
 
-    parse_url();
-
 #ifndef URL_HOST // todo staticassert?
     std::cout << "\n\n\n!!!!!!! URL_HOST IS NOT DEFINED !!!!!!!\n\n\n\n";
 #else
-    std::cout << "Redirecting to " << urlProtocol << "://" << urlHost << ":" << urlPort << '\n';
+    std::cout << "Redirecting to " << URL_PROTOCOL << "://" << URL_HOST << ":" << URL_PORT << '\n';
 #endif
 
     std::cout << "Initializing Cobalt (made by Milxnor#3531).\n";

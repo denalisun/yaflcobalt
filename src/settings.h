@@ -14,9 +14,5 @@ enum class ECobaltUsage
 
 #define SHOW_WINDOWS_CONSOLE
 
-char* urlHost = URL_HOST;
-char* urlPort = URL_PORT;
-char* urlProtocol = URL_PROTOCOL;
-
 constexpr static ECobaltUsage CobaltUsage = ECobaltUsage::Private;
 constexpr bool bIsS13Epic = false; // S13 Hybrid Windows -> IOS fake

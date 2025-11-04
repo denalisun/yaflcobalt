@@ -1,6 +1,6 @@
 #pragma once
 
-#include <windows.h>
+#include <Windows.h>
 #include <regex>
 
 #include "memcury.h"
@@ -79,7 +79,7 @@ inline CURLcode CurlEasySetOptDetour(struct Curl_easy* data, CURLoption tag, ...
 
 		std::cout << "URL: " << uri.Host << uri.Path << '\n';
 
-#if defined(urlHost) && defined(urlProtocol) && defined(urlPort)
+#if defined(URL_HOST) && defined(URL_PROTOCOL) && defined(URL_PORT)
 		if (uri.Host.ends_with(XOR("ol.epicgames.com"))
 			|| uri.Host.ends_with(XOR("epicgames.dev")) // wooo eos
 			|| uri.Host.ends_with(XOR("ol.epicgames.net")) // i forgor what endpoint this was for
@@ -91,27 +91,27 @@ inline CURLcode CurlEasySetOptDetour(struct Curl_easy* data, CURLoption tag, ...
 		{
 			if (CobaltUsage == ECobaltUsage::Private)
 			{
-				url = Uri::CreateUri(urlProtocol, urlHost, urlPort, uri.Path, uri.QueryString);
+				url = Uri::CreateUri(URL_PROTOCOL, URL_HOST, URL_PORT, uri.Path, uri.QueryString);
 			}
 			else if (CobaltUsage == ECobaltUsage::Hybrid)
 			{
 				if (uri.Path.contains("/fortnite/api/v2/versioncheck/")) {
-					url = Uri::CreateUri(urlProtocol, urlHost, urlPort, uri.Path, uri.QueryString);
+					url = Uri::CreateUri(URL_PROTOCOL, URL_HOST, URL_PORT, uri.Path, uri.QueryString);
 				}
 				else if (uri.Path.contains("/fortnite/api/game/v2/profile")) {
-					url = Uri::CreateUri(urlProtocol, urlHost, urlPort, uri.Path, uri.QueryString);
+					url = Uri::CreateUri(URL_PROTOCOL, URL_HOST, URL_PORT, uri.Path, uri.QueryString);
 				}
 				else if (uri.Path.contains("/content/api/pages/fortnite-game")) {
-					url = Uri::CreateUri(urlProtocol, urlHost, urlPort, uri.Path, uri.QueryString);
+					url = Uri::CreateUri(URL_PROTOCOL, URL_HOST, URL_PORT, uri.Path, uri.QueryString);
 				}
 				else if (uri.Path.contains("/affiliate/api/public/affiliates/slug")) {
-					url = Uri::CreateUri(urlProtocol, urlHost, urlPort, uri.Path, uri.QueryString);
+					url = Uri::CreateUri(URL_PROTOCOL, URL_HOST, URL_PORT, uri.Path, uri.QueryString);
 				}
 				else if (uri.Path.contains("/socialban/api/public/v1")) {
-					url = Uri::CreateUri(urlProtocol, urlHost, urlPort, uri.Path, uri.QueryString);
+					url = Uri::CreateUri(URL_PROTOCOL, URL_HOST, URL_PORT, uri.Path, uri.QueryString);
 				}
 				else if (uri.Path.contains("/fortnite/api/cloudstorage/system")) {
-					url = Uri::CreateUri(urlProtocol, urlHost, urlPort, uri.Path, uri.QueryString);
+					url = Uri::CreateUri(URL_PROTOCOL, URL_HOST, URL_PORT, uri.Path, uri.QueryString);
 				}
 			}
 		}
